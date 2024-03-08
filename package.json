@@ -9,13 +9,19 @@
     "prebuild": "npm run prebuild --workspaces --if-present",
     "pretest": "npm run prebuild --workspaces --if-present",
     "start": "npm start --workspaces --if-present",
-    "test": "npm test --workspaces --if-present"
+    "test": "npm test --workspaces --if-present",
+    "reload": "npm run build && npm run start"
   },
   "type": "module",
   "workspaces": [
     "src/icp_codefest_atlan3_frontend"
   ],
   "dependencies": {
-    "@dfinity/auth-client": "^1.0.1"
+    "@dfinity/auth-client": "^1.0.1",
+    "react": "^18.2.0",
+    "react-router-dom": "^6.22.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.25"
   }
 }

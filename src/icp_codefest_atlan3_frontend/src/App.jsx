@@ -1,31 +1,25 @@
-import { useState } from 'react';
-import { icp_codefest_atlan3_backend } from 'declarations/icp_codefest_atlan3_backend';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import CreateLicence from './content/create-licences/create-licences';
+import NotFound from './content/not-found/not-found';
+import CreateCertification from './content/create-certification/create-certification';
+import Navigation from './content/navigation/navigation';
 
 function App() {
-  const [greeting, setGreeting] = useState('');
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    const name = event.target.elements.name.value;
-    icp_codefest_atlan3_backend.greet(name).then((greeting) => {
-      setGreeting(greeting);
-    });
-    return false;
-  }
-
   return (
     <main>
-      <img src="/logo2.svg" alt="DFINITY logo" />
-      <br />
-      <br />
-      <form action="#" onSubmit={handleSubmit}>
-        <label htmlFor="name">Enter your name: &nbsp;</label>
-        <input id="name" alt="Name" type="text" />
-        <button type="submit">Click Me!</button>
-      </form>
-      <section id="greeting">{greeting}</section>
+      <Router>
+        <div>
+          <Navigation />
+        </div>
+        <Routes>
+          <Route path="/" element={<CreateLicence />} />
+          <Route path="/create-certificate" element={<CreateCertification />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Router>
     </main>
-  );
+  )
 }
 
 export default App;
