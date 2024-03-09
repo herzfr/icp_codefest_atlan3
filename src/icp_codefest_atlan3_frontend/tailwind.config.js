@@ -5,9 +5,22 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'custom-purple': '#6100FF',
+        'custom-cyan': '#00FFD1',
+      },
+      gradientColorStops: theme => ({
+        'custom-purple': theme('colors.custom-purple'),
+        'custom-cyan': theme('colors.custom-cyan'),
+      }),
+    },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
+  ],
 
 }
 
