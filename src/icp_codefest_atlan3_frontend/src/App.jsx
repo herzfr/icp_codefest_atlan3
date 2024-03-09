@@ -1,25 +1,25 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import CreateLicence from './content/create-licences/create-licences';
-import NotFound from './content/not-found/not-found';
-import CreateCertification from './content/create-certification/create-certification';
-import Navigation from './content/navigation/navigation';
+import useAuth, { AuthProvider } from './services/auth-client.context';
+import MainApp from './content/main-app/main-app';
+import MainWeb from './content/website/main-web';
 
-function App() {
+
+function CoreApp() {
+  const { isAuthenticated, identity } = useAuth();
   return (
-    <main>
-      <Router>
-        <div>
-          <Navigation />
-        </div>
-        <Routes>
-          <Route path="/" element={<CreateLicence />} />
-          <Route path="/create-certificate" element={<CreateCertification />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Router>
+    <main id="pageContent">
+      {isAuthenticated ? <MainApp /> : <MainWeb />}
     </main>
   )
 }
 
-export default App;
+const App = () => {
+  return (
+    <AuthProvider>
+      <CoreApp />
+    </AuthProvider>
+  );
+};
+
+export default App
+

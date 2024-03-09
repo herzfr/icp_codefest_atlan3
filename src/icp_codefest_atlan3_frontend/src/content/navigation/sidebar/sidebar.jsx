@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './navigation.scss'
+import './sidebar.scss'
 
-const Navigation = () => {
+const SideBar = () => {
     return (
         <nav className="navbar">
             <ul>
@@ -17,4 +17,4 @@ const Navigation = () => {
     );
 }
 
-export default Navigation;
+export default SideBar;

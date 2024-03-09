@@ -10,7 +10,7 @@
     "pretest": "npm run prebuild --workspaces --if-present",
     "start": "npm start --workspaces --if-present",
     "test": "npm test --workspaces --if-present",
-    "reload": "npm run build && npm run start"
+    "reload": "npm run prebuild && npm run start"
   },
   "type": "module",
   "workspaces": [

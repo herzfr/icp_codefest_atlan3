@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { DefaultAuthOptions } from "../config/auth.config";
 import { AuthClient } from "@dfinity/auth-client";
-import { Actor } from "@dfinity/agent";
+import { canisterId, createActor } from "../../../declarations/icp_codefest_atlan3_backend";
 
 const AuthContext = createContext();
 
@@ -40,7 +40,7 @@ export const useAuthClient = (options = DefaultAuthOptions) => {
 
         setAuthClient(client);
 
-        const actor = Actor.createActor(canisterId, {
+        const actor = createActor(canisterId, {
             agentOptions: {
                 identity,
             },

@@ -8,6 +8,6 @@ export const DefaultAuthOptions = {
         identityProvider:
             process.env.DFX_NETWORK === "ic"
                 ? "https://identity.ic0.app/#authorize"
-                : `http://${process.env.INTERNET_IDENTITY_CANISTER_ID}.localhost:4943#authorize`,
+                : `http://cbopz-duaaa-aaaaa-qaaka-cai.localhost:4943#authorize`,
     },
 }
