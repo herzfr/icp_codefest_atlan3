@@ -6,7 +6,7 @@ function MainWeb() {
     return (
         <main >
             <Navbar />
-            <Home />
+            <section id="home"><Home /></section>
         </main>
     );
 }

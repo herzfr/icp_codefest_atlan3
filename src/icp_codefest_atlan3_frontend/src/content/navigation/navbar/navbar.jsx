@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './navbar.scss'
 import { useAuthClient } from '../../../services/auth-client.context';
 
@@ -6,26 +6,47 @@ import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
 const navigation = [
-    { name: 'Product', href: '#' },
-    { name: 'Features', href: '#' },
-    { name: 'Marketplace', href: '#' },
-    { name: 'Company', href: '#' },
+    { name: 'WhyUs?', href: '#', color: 'text-custom-cyan' },
+    { name: 'Features', href: '#', color: 'text-white' },
+    { name: 'Subscription', href: '#', color: 'text-white' },
+    { name: 'Contact Us', href: '#', color: 'text-white' },
 ]
 
 function Navbar() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+    const [scrolled, setScrolled] = useState(false);
+
     const { login } = useAuthClient();
 
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollTop = window.pageYOffset;
+            if (scrollTop > 50) {
+                setScrolled(true);
+            }
+
+            if (scrollTop === 0) {
+                setScrolled(false);
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [])
+
+
     return (
-        <header className="absolute inset-x-0 top-0 z-50">
+        <header className={scrolled ? 'sticky-nav inset-x-0 z-50' : 'bg-trans absolute inset-x-0 top-0 z-50'}>
             <nav className="flex items-center justify-between p-3 lg:px-8" aria-label="Global">
                 <div className="flex lg:flex-1">
                     <a href="#" className="-m-1.5 p-1.5">
                         <span className="sr-only">Your Company</span>
                         <img
                             className="h-8 w-auto"
-                            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                            alt=""
+                            src="/logo-digicert.svg"
+                            alt="digicert"
                         />
                     </a>
                 </div>
@@ -41,13 +62,14 @@ function Navbar() {
                 </div>
                 <div className="hidden lg:flex lg:gap-x-12">
                     {navigation.map((item) => (
-                        <a key={item.name} href={item.href} className="text-sm font-semibold leading-6 text-white">
+                        <a key={item.name} href={item.href} className={item.name === 'WhyUs?' ?
+                            'text-sm font-semibold leading-6 text-custom-cyan' : 'text-sm font-semibold leading-6 text-white'}>
                             {item.name}
                         </a>
                     ))}
                 </div>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <a href="#" className="flex items-center text-sm font-semibold leading-6 text-white">
+                    <a onClick={login} className="flex items-center text-sm font-semibold leading-6 text-white">
                         <img className="login" src="/favicon.ico" alt="DFINITY logo" />
                         Log in <span className='ml-1' aria-hidden="true">&rarr;</span>
                     </a>
@@ -61,8 +83,8 @@ function Navbar() {
                             <span className="sr-only">Your Company</span>
                             <img
                                 className="h-8 w-auto"
-                                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                                alt=""
+                                src="/logo-digicert-black.svg"
+                                alt="digicert"
                             />
                         </a>
                         <button
@@ -101,30 +123,6 @@ function Navbar() {
             </Dialog>
         </header>
     )
-
-
-
-    return (
-        <nav className="navbar">
-            <div className="logo">Atlantiga</div>
-            <ul className={isActive ? 'nav-links active' : 'nav-links'}>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Contact</a></li>
-                <li>
-                    <button className="btn-login" onClick={login}>
-                        <img src="/favicon.ico" alt="DFINITY logo" />Log In
-                    </button>
-                </li>
-            </ul>
-            <div className="burger" onClick={toggleMenu}>
-                <div className={isActive ? 'line1 active' : 'line1'}></div>
-                <div className={isActive ? 'line2 active' : 'line2'}></div>
-                <div className={isActive ? 'line3 active' : 'line3'}></div>
-            </div>
-        </nav>
-    );
 }
 
 export default Navbar
