@@ -16,6 +16,7 @@
     "src/icp_codefest_atlan3_frontend"
   ],
   "dependencies": {
-    "@dfinity/auth-client": "^1.0.1"
+    "@dfinity/auth-client": "^1.0.1",
+    "uuidv4": "^6.2.13"
   }
 }
