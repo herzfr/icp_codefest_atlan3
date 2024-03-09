@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './navbar.scss'
-import { useAuthClient } from '../../../services/auth-client.context';
+import useAuth, { useAuthClient } from '../../../services/auth-client.context';
 
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
@@ -16,7 +16,7 @@ function Navbar() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const [scrolled, setScrolled] = useState(false);
 
-    const { login } = useAuthClient();
+    const { login } = useAuth();
 
     useEffect(() => {
         const handleScroll = () => {

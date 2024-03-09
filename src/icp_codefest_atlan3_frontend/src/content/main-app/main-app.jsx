@@ -5,6 +5,7 @@ import CreateLicence from '../create-licences/create-licences';
 import CreateCertification from '../create-certification/create-certification';
 import NotFound from '../not-found/not-found';
 import useAuth from '../../services/auth-client.context';
+import ListCertification from '../list-certification/list-certification';
 
 function MainApp() {
     const [result, setResult] = React.useState("");
@@ -13,14 +14,17 @@ function MainApp() {
     return (
         <main>
             <Router>
-                <div>
+                <div className="flex flex-row min-h-screen w-full">
                     <SideBar />
+                    <main>
+                        <Routes>
+                            <Route path="/" element={<CreateLicence />} />
+                            <Route path="/create-certificate" element={<CreateCertification />} />
+                            <Route path="/list-certificate" element={<ListCertification />} />
+                            <Route path="*" element={<NotFound />} />
+                        </Routes>
+                    </main>
                 </div>
-                <Routes>
-                    <Route path="/" element={<CreateLicence />} />
-                    <Route path="/create-certificate" element={<CreateCertification />} />
-                    <Route path="*" element={<NotFound />} />
-                </Routes>
             </Router>
         </main>
     )
