@@ -7,6 +7,9 @@ import Principal "mo:base/Principal";
 import Array "mo:base/Array";
 import Time "mo:base/Time";
 import Nat32 "mo:base/Nat32";
+import Nat "mo:base/Nat";
+import Random "mo:base/Random";
+
 
 actor class Backend() {
   type Course = {
@@ -21,7 +24,6 @@ actor class Backend() {
     certificateId : Nat32;
     name : Text;
     serialNumber : Text;
-    expired : ?Nat64;
     isUsed : Bool;
     createdAt : Int;
   };
@@ -29,13 +31,6 @@ actor class Backend() {
   private type PayloadCreateCertificate = {
     courseId : Nat32;
     name : Text;
-    serialNumber : Text;
-    expired : ?Nat64;
-  };
-
-  private type PayloadCheckCertificate = {
-    courseId : Nat32;
-    serialNumber : Text;
   };
 
   let certificates = Buffer.Buffer<Certificate>(10);
@@ -82,25 +77,27 @@ actor class Backend() {
       return "Course Does'n Exist";
     };
 
-    let duplicatedCertificate : ?Certificate = await getCertificateBySerialNumber(payload.serialNumber);
+    let now = Time.now();
+    let generatedNumber = "ATLAN";
+    let newCertificate : Certificate = {
+      certificateId = nextId();
+      name = payload.name;
+      serialNumber = generatedNumber # Int.toText(Time.now()) # Nat32.toText(nextId());
+      isUsed = true;
+      createdAt = now;
+    };
+
+    let duplicatedCertificate : ?Certificate = await getCertificateBySerialNumber(newCertificate.serialNumber);
     if (duplicatedCertificate != null) {
       return "Your Certificate serial number already created before";
     };
 
-    let now = Time.now();
-    let newCertificate : Certificate = {
-      certificateId = nextId();
-      name = payload.name;
-      serialNumber = payload.serialNumber;
-      expired = payload.expired;
-      isUsed = true;
-      createdAt = now;
-    };
     certificates.add(newCertificate);
     // updateCourse(payload.courseId, newCertificate);
     return "Success";
   };
 
+ 
   // shared ({caller}) func updateCourse(courseId: Nat32, dataCertificate: Certificate) {
   //   let isCourseIdExist = await getCourseById(courseId);
   //   isCourseIdExist.certificate.add(dataCertificate);
@@ -116,15 +113,16 @@ actor class Backend() {
   };
 
   // validate certificate
-  public shared ({ caller }) func checkCertificate(payload : PayloadCheckCertificate) : async Text {
-    let isCourseIdExist : ?Course = await getCourseById(payload.courseId);
-    if (isCourseIdExist == null) {
-      return "Course Does'n Exist";
+  public shared ({ caller }) func checkCertificate(serialNumber : Text) : async Text {
+    let certificateList = Buffer.toArray<Certificate>(certificates);
+    let certificateListSize = Array.size(certificateList);
+    if (certificateListSize == 0) {
+      return "Certificate Not Available";
     };
-
-    let duplicatedCertificate : ?Certificate = await getCertificateBySerialNumber(payload.serialNumber);
+    
+    let duplicatedCertificate : ?Certificate = await getCertificateBySerialNumber(serialNumber);
     if (duplicatedCertificate != null) {
-      return "Your Certificate verified";
+      return "Verified";
     };
 
     return "";
@@ -175,5 +173,4 @@ actor class Backend() {
     lastId += 1;
     lastId;
   };
-
 };

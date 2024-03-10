@@ -16,6 +16,7 @@
     }
   
     .course-item {
+        cursor: pointer;
       width: 300px;
       margin: 10px;
       background-color: #fff;
@@ -36,14 +37,14 @@
   
         h3 {
           font-size: 18px;
-          color: black;
           margin-bottom: 10px;
           text-transform: capitalize;
+          color: black;
         }
   
         p {
           font-size: 14px;
-          color: black;
+          color: #555;
         }
       }
     }

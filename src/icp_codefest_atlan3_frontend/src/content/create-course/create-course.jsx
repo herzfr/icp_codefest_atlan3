@@ -1,54 +1,73 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useAuth from "../../services/auth-client.context";
 import './create-course.scss'
+import AlertComponent from "../components/alert/alert";
 
 function CreateCourse() {
     const [inputValue, setInputValue] = useState('');
     const [loading, setLoading] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
 
     const { whoamiActor } = useAuth();
 
+    useEffect(() => {
+        // Show the alert when showAlert state is updated
+        if (showAlert) {
+            setTimeout(() => {
+                setShowAlert(false);
+            }, 2000); // Set a timeout to close the alert after 2 seconds
+        }
+    }, [showAlert]);
 
     const handleChange = (event) => {
         setInputValue(event.target.value);
     };
 
+    const handleAlertClose = () => {
+        setShowAlert(false);
+    };
+
     const createCourseSertification  = async () => {
-        // Do something with the input value
-        console.log('Input value:', inputValue);
         if (loading) return; // Cancel if waiting for a new count
         try {
             setLoading(true);
-            let data = await whoamiActor.createCourse(inputValue); // Increment the count by 1
+            let data = await whoamiActor.createCourse(inputValue);
+
             console.log('data ', data);
 
-            let dataListCourse = await whoamiActor.getCourse();
-            console.log('data ', dataListCourse);
+            if (data === "Success") {
+                // Display alert on successful creation
+                setShowAlert(true);
+            }
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div>
-            {/* <h2 className="text-white">Create Course</h2>
-            <input id="certificateName" type="text" onChange={handleChange} />
-            <button className="bg-white text-black" type="button" onClick={createCourseSertification}>Submit</button> */}
-        
+        <div>        
             <div className="course-form-container">
-      <h2>Create New Course</h2>
-      <div className="form-group">
-        <label htmlFor="courseName">Course Name:</label>
-        <input
-          type="text"
-          id="courseName"
-          onChange={handleChange}
-        />
-      </div>
-      <button className="save-button" onClick={createCourseSertification}>
-        Save
-      </button>
-    </div>
+                <h2 className="border-b-2 border-white pb-2">Create New Course</h2>
+                <div className="form-group">
+                    <label htmlFor="courseName">Course Name:</label>
+                    <input
+                        type="text"
+                        id="courseName"
+                        onChange={handleChange}
+                    />
+                </div>
+                <button className="save-button" onClick={createCourseSertification}>
+                    Save
+                </button>
+            </div>
+
+            {/* Render custom alert component */}
+            {showAlert && (
+                <AlertComponent
+                    message="Course created successfully!"
+                    onClose={handleAlertClose}
+                />
+            )}
         </div>
     );
 }

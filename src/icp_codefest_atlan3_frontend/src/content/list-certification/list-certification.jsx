@@ -1,23 +1,27 @@
 import { useEffect, useState } from 'react';
 import useAuth from '../../services/auth-client.context';
 import './list-certification.scss';
+import { Link } from 'react-router-dom';
 
 function ListCertification() {
     const [loading, setLoading] = useState(false);
-    const [course, setCourse] = useState([]);
+    const [certificate, setCertificate] = useState([]);
+    const [course, setDetailCourse] = useState(null);
 
     const { whoamiActor } = useAuth();
     console.log('whoamiActor ', whoamiActor);
 
     // Get the current counter value
-    const fetchCourse = async () => {
+    const fetchCertificate = async () => {
         try {
             setLoading(true);
             
-            let dataListCourse = await whoamiActor.getCourse();
-            setCourse(dataListCourse);
-            console.log('data ', dataListCourse);
-            console.log('cocococ ', course);    
+            let dataListCertificate = await whoamiActor.getCertificates();
+            setCertificate(dataListCertificate);
+            
+            // let detailCourse = await whoamiActor.getCourseById(dataListCertificate[0].courseId);
+            // setDetailCourse(detailCourse);
+            console.log('data ', dataListCertificate);
         } catch (err) {
             console.error(err);
         } finally {
@@ -27,26 +31,30 @@ function ListCertification() {
 
     // Fetch the count on page load
     useEffect(() => {
-        fetchCourse();
+        fetchCertificate();
     }, []);
 
     // Return the JSX wrapped in parentheses
     return (
         <div className="list-course-container">
-      <h1>Data List Courses</h1>
-      {loading && <p>Loading...</p>}
-      {!loading && course.length === 0 && <p>No courses available.</p>}
-      {!loading && course.length > 0 && (
+            <div className='flex justify-between'>
+                <h1>Data List Certificate</h1>
+                <Link to='/create-certificate'>
+                    <button className='text-white py-1 px-4 rounded-md bg-green-600'>Create Certificate</button>
+                </Link>
+            </div>
+      {loading && <p className='text-white text-center'>Loading...</p>}
+      {!loading && certificate.length === 0 && <p className='text-white text-center'>No courses available.</p>}
+      {!loading && certificate.length > 0 && (
         <ul className="course-list">
-          {course.map((courses) => (
-            <li key={courses.courseId} className="course-item">
-              {/* <img
-                src={course.image || defaultCourseImage}
-                alt={`Course: ${courses.name}`}
-                className="course-image"
-              /> */}
-              <div className="course-details">
-                <h3>{courses.name}</h3>
+          {certificate.map((certificates) => (
+            <li key={certificates.courseId} className="course-item">
+              <div className="course-details flex flex-col space-y-2">
+                <h3>{certificates.name}</h3>
+                <div className='flex flex-col'>
+                    <p className='font-bold'>Serial Number:</p>
+                    <p>{certificates.serialNumber}</p>
+                </div>
               </div>
             </li>
           ))}
