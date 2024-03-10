@@ -9,11 +9,11 @@ import CreateCourse from '../create-course/create-course';
 
 function MainApp() {
     return (
-        <main>
+        <main className='w-full'>
             <Router>
                 <div className="flex flex-row min-h-screen w-full">
                     <SideBar />
-                    <main>
+                    <main className='flex w-full m-4'>
                         <Routes>
                             <Route path="/" element={<CreateLicence />} />
                             <Route path="/create-certificate" element={<CreateCertification />} />
