@@ -3,6 +3,7 @@ import { DefaultAuthOptions } from "../config/auth.config";
 import { AuthClient } from "@dfinity/auth-client";
 import { canisterId, createActor } from "../../../declarations/icp_codefest_atlan3_backend";
 
+
 const AuthContext = createContext();
 
 export const useAuthClient = (options = DefaultAuthOptions) => {
@@ -46,6 +47,10 @@ export const useAuthClient = (options = DefaultAuthOptions) => {
             },
         })
 
+        // console.log('isAuthenticated ', isAuthenticated);
+        // console.log('identity ', identity);
+        // console.log('principal ', principal);
+        // console.log('actor ', actor);
         setWhoamiActor(actor);
     }
 

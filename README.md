@@ -27,9 +27,30 @@ If you want to test your project locally, you can use the following commands:
 # Starts the replica, running in the background
 dfx start --background
 
+# Create canister all 
+dfx canister create --all
+
+# Build canister all 
+dfx build
+
+# Install canister all 
+dfx canister install --all
+
 # Deploys your canisters to the replica and generates your candid interface
 dfx deploy
+
+# Build project by package.json 
+npm run build
+
+# Run project by package.json 
+npm run start
+
+# Reload project by package.json 
+npm run reload
 ```
+## Perhatian
+
+If you encounter the problem 'Could not find a canister id to forward to.' during the authorization login call, please navigate to the directory 'src/icp_codefest_atlan3_frontend/src/config/auth.config.js' to modify the configuration of the internet_identity canister id as stated in your local .env file
 
 Once the job completes, your application will be available at `http://localhost:4943?canisterId={asset_canister_id}`.
 

@@ -1,0 +1,76 @@
+// verification-page.scss
+
+$primary-color: #f3f5f7;
+$secondary-color: #2ecc71;
+$danger-color: #e74c3c;
+
+.verification-page {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: white;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: $primary-color;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      font-size: 14px;
+    }
+  }
+
+  .verify-button {
+    background-color: $secondary-color;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+
+  // Style for the alert component (adjust based on your actual AlertComponent)
+  .alert-component {
+    margin-top: 15px;
+
+    &.success {
+      background-color: $secondary-color;
+      color: #fff;
+    }
+
+    &.error {
+      background-color: $danger-color;
+      color: #fff;
+    }
+
+    .close-button {
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+    }
+  }
+}

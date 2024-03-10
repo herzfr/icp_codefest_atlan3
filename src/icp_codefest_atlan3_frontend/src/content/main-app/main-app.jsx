@@ -1,26 +1,28 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SideBar from "../navigation/sidebar/sidebar";
-import CreateLicence from '../create-licences/create-licences';
 import CreateCertification from '../create-certification/create-certification';
 import NotFound from '../not-found/not-found';
-import useAuth from '../../services/auth-client.context';
+import ListCertification from '../list-certification/list-certification';
+import CreateCourse from '../create-course/create-course';
+import HomeDashboard from '../home-dashboard/home-dashboard';
 
 function MainApp() {
-    const [result, setResult] = React.useState("");
-    const { whoamiActor, logout } = useAuth();
-
     return (
-        <main>
+        <main className='w-full'>
             <Router>
-                <div>
+                <div className="flex flex-row min-h-screen w-full">
                     <SideBar />
+                    <main className='w-full m-4'>
+                        <Routes>
+                            <Route path="/" element={<HomeDashboard />} />
+                            <Route path="/create-certificate" element={<CreateCertification />} />
+                            <Route path="/create-course" element={<CreateCourse />} />
+                            <Route path="/list-certificate" element={<ListCertification />} />
+                            <Route path="*" element={<NotFound />} />
+                        </Routes>
+                    </main>
                 </div>
-                <Routes>
-                    <Route path="/" element={<CreateLicence />} />
-                    <Route path="/create-certificate" element={<CreateCertification />} />
-                    <Route path="*" element={<NotFound />} />
-                </Routes>
             </Router>
         </main>
     )
