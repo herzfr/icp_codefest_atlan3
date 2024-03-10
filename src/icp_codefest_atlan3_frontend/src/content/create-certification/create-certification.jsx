@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import useAuth from "../../services/auth-client.context";
 import './create-certification.scss';
 import AlertComponent from "../components/alert/alert";
+import { useNavigate } from "react-router-dom";
 
 function CreateCertification() {
     const [inputNameValue, setInputNameValue] = useState('');
@@ -12,6 +13,7 @@ function CreateCertification() {
     const [showAlert, setShowAlert] = useState(false);    
 
     const { whoamiActor } = useAuth();
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchCourse();
@@ -19,6 +21,7 @@ function CreateCertification() {
         if (showAlert) {
             setTimeout(() => {
                 setShowAlert(false);
+                navigate("/list-certificate");
             }, 2000); // Set a timeout to close the alert after 2 seconds
         }
     }, [showAlert]);

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import useAuth from "../../services/auth-client.context";
 import './create-course.scss'
 import AlertComponent from "../components/alert/alert";
+import { useNavigate } from "react-router-dom";
 
 function CreateCourse() {
     const [inputValue, setInputValue] = useState('');
@@ -9,12 +10,14 @@ function CreateCourse() {
     const [showAlert, setShowAlert] = useState(false);
 
     const { whoamiActor } = useAuth();
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Show the alert when showAlert state is updated
         if (showAlert) {
             setTimeout(() => {
                 setShowAlert(false);
+                navigate("/");
             }, 2000); // Set a timeout to close the alert after 2 seconds
         }
     }, [showAlert]);

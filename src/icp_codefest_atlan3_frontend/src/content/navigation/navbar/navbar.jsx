@@ -60,16 +60,16 @@ function Navbar() {
                         <Bars3Icon className="h-6 w-6" aria-hidden="true" />
                     </button>
                 </div>
-                <div className="hidden lg:flex lg:gap-x-12">
+                {/* <div className="hidden lg:flex lg:gap-x-12">
                     {navigation.map((item) => (
                         <a key={item.name} href={item.href} className={item.name === 'WhyUs?' ?
                             'text-sm font-semibold leading-6 text-custom-cyan' : 'text-sm font-semibold leading-6 text-white'}>
                             {item.name}
                         </a>
                     ))}
-                </div>
+                </div> */}
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <a onClick={login} className="flex items-center text-sm font-semibold leading-6 text-white">
+                    <a onClick={login} className="cursor-pointer flex items-center text-sm font-semibold leading-6 text-white">
                         <img className="login" src="/favicon.ico" alt="DFINITY logo" />
                         Log in <span className='ml-1' aria-hidden="true">&rarr;</span>
                     </a>

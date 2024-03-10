@@ -70,7 +70,7 @@ const SideBar = () => {
                     to="/list-certificate" activeclassname="bg-gray-200">
                     List Certificate
                 </NavLink>
-                <a onClick={logout} className="flex justify-center items-center bottom-0 w-56 mb-4 absolute cursor-pointer px-4 py-2 mt-2 text-sm font-semibold text-white bg-black rounded-lg hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
+                <a href='/' onClick={logout} className="flex justify-center items-center bottom-0 w-56 mb-4 absolute cursor-pointer px-4 py-2 mt-2 text-sm font-semibold text-white bg-black rounded-lg hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
                     <img className="login" src="/favicon.ico" alt="DFINITY logo" />Logout
                 </a>
             </nav>
