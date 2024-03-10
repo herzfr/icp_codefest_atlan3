@@ -4,13 +4,9 @@ import SideBar from "../navigation/sidebar/sidebar";
 import CreateLicence from '../create-licences/create-licences';
 import CreateCertification from '../create-certification/create-certification';
 import NotFound from '../not-found/not-found';
-import useAuth from '../../services/auth-client.context';
 import ListCertification from '../list-certification/list-certification';
 
 function MainApp() {
-    const [result, setResult] = React.useState("");
-    const { whoamiActor, logout } = useAuth();
-
     return (
         <main>
             <Router>

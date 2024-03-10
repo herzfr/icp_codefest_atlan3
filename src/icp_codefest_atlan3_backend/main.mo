@@ -8,35 +8,34 @@ import Array "mo:base/Array";
 import Time "mo:base/Time";
 import Nat32 "mo:base/Nat32";
 
-
-actor {
+actor class Backend() {
   type Course = {
-    courseId: Nat32;
-    name: Text;
-    principal: Principal;
-    certificate: [Certificate];
-    createdAt: Int;
+    courseId : Nat32;
+    name : Text;
+    principal : Principal;
+    certificate : [Certificate];
+    createdAt : Int;
   };
 
   type Certificate = {
-    certificateId: Nat32;
-    name: Text;
-    serialNumber: Text;
-    expired: ?Nat64;
-    isUsed: Bool;
-    createdAt: Int;
+    certificateId : Nat32;
+    name : Text;
+    serialNumber : Text;
+    expired : ?Nat64;
+    isUsed : Bool;
+    createdAt : Int;
   };
 
   private type PayloadCreateCertificate = {
-    courseId: Nat32;
-    name: Text;
-    serialNumber: Text;
-    expired: ?Nat64;
+    courseId : Nat32;
+    name : Text;
+    serialNumber : Text;
+    expired : ?Nat64;
   };
 
   private type PayloadCheckCertificate = {
-    courseId: Nat32;
-    serialNumber: Text;
+    courseId : Nat32;
+    serialNumber : Text;
   };
 
   let certificates = Buffer.Buffer<Certificate>(10);
@@ -44,11 +43,11 @@ actor {
 
   stable var lastId : Nat32 = 0;
 
-  public shared ({caller}) func createCourse(names: Text): async Text {
+  public shared ({ caller }) func createCourse(names : Text) : async Text {
     try {
-      let id: Principal = await whoami();
+      let id : Principal = await getPrincipal();
       let now = Time.now();
-      let newCourse: Course = {
+      let newCourse : Course = {
         courseId = nextId();
         name = names;
         principal = id;
@@ -57,12 +56,12 @@ actor {
       };
       courses.add(newCourse);
       return "Success";
-    } catch(err) {
+    } catch (err) {
       return "Error While registering Course";
-    }
+    };
   };
 
-  public query func getCourse() : async [Course] {
+  public shared func getCourse() : async [Course] {
     let coursesList = Buffer.toArray<Course>(courses);
     let coursesListSize = Array.size(coursesList);
     if (coursesListSize == 0) {
@@ -71,20 +70,25 @@ actor {
     return coursesList;
   };
 
-  public shared ({caller}) func createCertificate(payload: PayloadCreateCertificate): async Text {
+  var coursess : [Course] = [];
+  public func getAllCourse() : async [Course] {
+    return coursess;
+  };
 
-    let isCourseIdExist: ?Course = await getCourseById(payload.courseId);
+  public shared ({ caller }) func createCertificate(payload : PayloadCreateCertificate) : async Text {
+
+    let isCourseIdExist : ?Course = await getCourseById(payload.courseId);
     if (isCourseIdExist == null) {
-      return "Course Does'n Exist"
+      return "Course Does'n Exist";
     };
 
-    let duplicatedCertificate: ?Certificate = await getCertificateBySerialNumber(payload.serialNumber);
-    if(duplicatedCertificate != null) {
-       return "Your Certificate serial number already created before";
+    let duplicatedCertificate : ?Certificate = await getCertificateBySerialNumber(payload.serialNumber);
+    if (duplicatedCertificate != null) {
+      return "Your Certificate serial number already created before";
     };
 
     let now = Time.now();
-    let newCertificate: Certificate = {
+    let newCertificate : Certificate = {
       certificateId = nextId();
       name = payload.name;
       serialNumber = payload.serialNumber;
@@ -94,7 +98,7 @@ actor {
     };
     certificates.add(newCertificate);
     // updateCourse(payload.courseId, newCertificate);
-    return "Success"
+    return "Success";
   };
 
   // shared ({caller}) func updateCourse(courseId: Nat32, dataCertificate: Certificate) {
@@ -112,40 +116,40 @@ actor {
   };
 
   // validate certificate
-  public shared ({caller}) func checkCertificate(payload: PayloadCheckCertificate) : async Text {
-    let isCourseIdExist: ?Course = await getCourseById(payload.courseId);
+  public shared ({ caller }) func checkCertificate(payload : PayloadCheckCertificate) : async Text {
+    let isCourseIdExist : ?Course = await getCourseById(payload.courseId);
     if (isCourseIdExist == null) {
-      return "Course Does'n Exist"
+      return "Course Does'n Exist";
     };
 
-    let duplicatedCertificate: ?Certificate = await getCertificateBySerialNumber(payload.serialNumber);
-    if(duplicatedCertificate != null) {
-       return "Your Certificate verified";
+    let duplicatedCertificate : ?Certificate = await getCertificateBySerialNumber(payload.serialNumber);
+    if (duplicatedCertificate != null) {
+      return "Your Certificate verified";
     };
 
-    return ""
+    return "";
   };
 
   // find course by Id
-  public query func getCourseById(id: Nat32): async ?Course {
+  public query func getCourseById(id : Nat32) : async ?Course {
     let coursesList = Buffer.toArray<Course>(courses);
     let coursesListSize = Array.size(coursesList);
     if (coursesListSize == 0) {
       return null;
     };
     let findId = Array.find<Course>(coursesList, func x = x.courseId == id);
-    return findId
+    return findId;
   };
 
   // find certificate by serialNumber
-  public query func getCertificateBySerialNumber(number: Text): async ?Certificate {
+  public query func getCertificateBySerialNumber(number : Text) : async ?Certificate {
     let certificateList = Buffer.toArray<Certificate>(certificates);
     let certificateListSize = Array.size(certificateList);
     if (certificateListSize == 0) {
       return null;
     };
     let findSerialNumber = Array.find<Certificate>(certificateList, func x = x.serialNumber == number);
-    return findSerialNumber
+    return findSerialNumber;
   };
 
   // Return the principal identifier that was provided as an installation
@@ -155,17 +159,21 @@ actor {
   };
 
   // Return the principal identifier of the caller of this method.
-  public shared query (msg) func whoami() : async Principal {
+  public shared query (msg) func getPrincipal() : async Principal {
     msg.caller;
   };
 
-  public query func getRandomId(): async Nat32 {
-    return nextId()
+  public shared (msg) func whoami() : async Principal {
+    msg.caller;
+  };
+
+  public query func getRandomId() : async Nat32 {
+    return nextId();
   };
 
   private func nextId() : Nat32 {
-        lastId += 1;
-        lastId;
-    };
+    lastId += 1;
+    lastId;
+  };
 
 };

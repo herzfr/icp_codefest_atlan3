@@ -14,7 +14,8 @@
   },
   "type": "module",
   "workspaces": [
-    "src/icp_codefest_atlan3_frontend"
+    "src/icp_codefest_atlan3_frontend",
+    "src/icp_codefest_atlan3_backend"
   ],
   "dependencies": {
     "@dfinity/auth-client": "^1.0.1",
