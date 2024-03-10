@@ -5,6 +5,7 @@ import CreateLicence from '../create-licences/create-licences';
 import CreateCertification from '../create-certification/create-certification';
 import NotFound from '../not-found/not-found';
 import ListCertification from '../list-certification/list-certification';
+import CreateCourse from '../create-course/create-course';
 
 function MainApp() {
     return (
@@ -16,6 +17,7 @@ function MainApp() {
                         <Routes>
                             <Route path="/" element={<CreateLicence />} />
                             <Route path="/create-certificate" element={<CreateCertification />} />
+                            <Route path="/create-course" element={<CreateCourse />} />
                             <Route path="/list-certificate" element={<ListCertification />} />
                             <Route path="*" element={<NotFound />} />
                         </Routes>

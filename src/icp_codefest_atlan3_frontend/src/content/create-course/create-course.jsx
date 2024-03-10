@@ -1,9 +1,8 @@
 import { useState } from "react";
 import useAuth from "../../services/auth-client.context";
+import './create-course.scss'
 
-
-
-function CreateCertification() {
+function CreateCourse() {
     const [inputValue, setInputValue] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -14,7 +13,7 @@ function CreateCertification() {
         setInputValue(event.target.value);
     };
 
-    const createCertificate = async () => {
+    const createCourseSertification  = async () => {
         // Do something with the input value
         console.log('Input value:', inputValue);
         if (loading) return; // Cancel if waiting for a new count
@@ -32,11 +31,26 @@ function CreateCertification() {
 
     return (
         <div>
-            <h2 className="text-white">Create Course</h2>
+            {/* <h2 className="text-white">Create Course</h2>
             <input id="certificateName" type="text" onChange={handleChange} />
-            <button className="bg-white text-black" type="button" onClick={createCertificate}>Submit</button>
+            <button className="bg-white text-black" type="button" onClick={createCourseSertification}>Submit</button> */}
+        
+            <div className="course-form-container">
+      <h2>Create New Course</h2>
+      <div className="form-group">
+        <label htmlFor="courseName">Course Name:</label>
+        <input
+          type="text"
+          id="courseName"
+          onChange={handleChange}
+        />
+      </div>
+      <button className="save-button" onClick={createCourseSertification}>
+        Save
+      </button>
+    </div>
         </div>
     );
 }
 
-export default CreateCertification;
+export default CreateCourse;
